@@ -1,0 +1,47 @@
+body {
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+}
+
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;           /* space between logo and title */
+  padding: 20px 40px;  /* header padding */
+  background-color: #0d47a1; /* optional header color */
+  color: white;
+}
+
+.logo {
+  width: 120px;  /* increase width */
+  height: auto;  /* keep aspect ratio */
+}
+
+.site-header h1 {
+  font-size: 2em; /* larger title */
+  margin: 0;
+}
+
+
+
+
+h1 {color: #4CAF50;text-align:center;padding:20px 0;margin:0;}
+h2 {color: #00BCD4;margin-bottom:10px;}
+.screen {max-width:1200px;margin:auto;padding:20px;}
+.dashboard-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.block {background-color:#1f1f1f;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+input,select{padding:10px;margin:5px 0;border-radius:5px;border:none;width:100%;box-sizing:border-box;}
+button{padding:10px 18px;margin:5px;border:none;border-radius:8px;cursor:pointer;font-size:14px;background-color:#4CAF50;color:white;transition:0.3s;}
+button:hover{background-color:#f44336;}
+.light{display:flex;justify-content:space-between;align-items:center;margin:10px 0;}
+input[type=range]{-webkit-appearance:none;width:100%;height:15px;border-radius:8px;background:#555;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer;border:2px solid #fff;margin-top:-3px;}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#4CAF50;cursor:pointer;border:2px solid #fff;}
+.securitySafe{color:#4CAF50;font-weight:bold;}
+.securityAlert{color:#f44336;font-weight:bold;}
+#loginScreen{max-width:400px;margin:100px auto;background-color:#1f1f1f;padding:30px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.5);text-align:center;}
+#loginScreen input{width:90%;margin:10px 0;}
+.error{color:#f44336;font-weight:bold;margin-top:10px;}

@@ -1,106 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ESP32 Smart Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-  <script src="script.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Electrical Dashboard</title>
 
-  <header class="site-header">
-  <img src="c:\Users\HP\Downloads\jistech26\images.jpg" alt="JIS College of Engineering Logo" class="logo">
-  <h1>JIS COLLEGE OF ENGINEERING [EE] Control Panel</h1>
-</header>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
-<!-- Login Screen -->
-<div id="loginScreen" class="screen">
-  <h1>ESP32 Login</h1>
+
+<!-- ---------------- LOGIN ---------------- -->
+<div id="loginScreen" class="login-container">
+  <h2>Login</h2>
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
   <button onclick="login()">Login</button>
-  <p id="loginError" class="error"></p>
+  <p id="loginError"></p>
 </div>
 
-<!-- Main Dashboard -->
-<div id="dashboard" class="screen" style="display:none;">
-  <h1>ESP32 Smart Dashboard</h1>
-  <div class="dashboard-grid">
+<!-- ---------------- DASHBOARD ---------------- -->
+<div id="dashboard" class="dashboard" style="display:none;">
 
-    <!-- Temperature & Humidity -->
-    <div class="block">
-      <h2>Temperature & Humidity</h2>
-      <p>Temperature: <span id="temp">0</span> °C</p>
-      <input type="range" id="tempSlider" min="0" max="50" step="0.1" disabled>
-      <p>Humidity: <span id="hum">0</span> %</p>
-      <input type="range" id="humSlider" min="0" max="100" step="1" disabled>
-    </div>
+<h1>⚡ Electrical Automation Dashboard</h1>
 
-    <!-- Current Monitoring -->
-    <div class="block">
-      <h2>Current Monitoring</h2>
-      <p>Current: <span id="curr">0.00</span> A</p>
-      <input type="range" id="currentSlider" min="0.001" max="10" step="0.001" disabled>
-      <p>Trip Status: <span id="trip">false</span></p>
-      <button onclick="resetBreaker()">Reset Breaker</button>
-      <p>Breaker Status: <span id="breakerStatus">OFF</span></p>
-    </div>
+<!-- GRID -->
+<div class="grid">
 
-    <!-- Lights Control -->
-    <div class="block">
-      <h2>Lights Control</h2>
-      <div class="light">
-        <span>Light 1:</span>
-        <button onclick="turnLight(4,true)">ON</button>
-        <button onclick="turnLight(4,false)">OFF</button>
-        <span>Status: <span id="light1Status">OFF</span></span>
-      </div>
-      <div class="light">
-        <span>Light 2:</span>
-        <button onclick="turnLight(5,true)">ON</button>
-        <button onclick="turnLight(5,false)">OFF</button>
-        <span>Status: <span id="light2Status">OFF</span></span>
-      </div>
-    </div>
-
-    <!-- AC Control -->
-    <div class="block">
-      <h2>AC Control</h2>
-      <p>Status: <span id="acStatus">OFF</span></p>
-      <p>Threshold: 
-        <input type="range" id="acSlider" min="22" max="40" value="31" oninput="updateACThreshold(this.value)">
-        <span id="acThresholdValue">31</span> °C
-      </p>
-      <button onclick="acManualOffBtn()">Manual OFF</button>
-    </div>
-
-    <!-- Motor Control -->
-    <div class="block">
-      <h2>Motor Control</h2>
-      <p>Select Mode:
-        <select id="motorSelect">
-          <option value="1">Mode 1</option>
-          <option value="2">Mode 2</option>
-          <option value="3">Mode 3</option>
-          <option value="4">Mode 4</option>
-        </select>
-      </p>
-      <button onclick="motorAction()">Action</button>
-      <button onclick="motorOff()">OFF</button>
-      <p>Status: <span id="motorStatus">OFF</span></p>
-    </div>
-
-    <!-- Security Status -->
-    <div class="block">
-      <h2>Security Status</h2>
-      <p>Status: <span id="securityStatus" class="securitySafe">Safe</span></p>
-      <button onclick="resetSecurity()">Reset Alarm</button>
-    </div>
-
+  <!-- TEMPERATURE -->
+  <div class="card">
+    <h3>Temperature</h3>
+    <h2><span id="temp">0</span> °C</h2>
+    <input type="range" id="tempSlider" min="0" max="50">
   </div>
+
+  <!-- HUMIDITY -->
+  <div class="card">
+    <h3>Humidity</h3>
+    <h2><span id="hum">0</span> %</h2>
+    <input type="range" id="humSlider" min="0" max="100">
+  </div>
+
+  <!-- CURRENT -->
+  <div class="card">
+    <h3>Current</h3>
+    <h2><span id="curr">0</span> A</h2>
+    <input type="range" id="currentSlider" min="0" max="10" step="0.01">
+  </div>
+
+  <!-- AC CONTROL -->
+  <div class="card">
+    <h3>AC Control</h3>
+    <p>Status: <span id="acStatus">OFF</span></p>
+    <input type="range" id="acSlider" min="0" max="40">
+    <br><br>
+    <label>Threshold: <span id="acThresholdValue">31</span>°C</label>
+    <input type="range" min="20" max="40" value="31"
+      onchange="setACThreshold(this.value)">
+    <button onclick="acOff()">Manual OFF</button>
+  </div>
+
+  <!-- LIGHT CONTROL -->
+  <div class="card">
+    <h3>Light</h3>
+    <p>Status: <span id="lightStatus">OFF</span></p>
+    <button onclick="lightOn()">ON</button>
+    <button onclick="lightOff()">OFF</button>
+  </div>
+
+  <!-- MOTOR CONTROL -->
+  <div class="card">
+    <h3>Motor Control</h3>
+    <select id="motorSelect">
+      <option value="1">Mode 1</option>
+      <option value="2">Mode 2</option>
+      <option value="3">Mode 3</option>
+      <option value="4">Mode 4</option>
+    </select>
+    <br><br>
+    <button onclick="motorAction()">Action</button>
+    <button onclick="motorOff()">OFF</button>
+    <p>Status: <span id="motorStatus">OFF</span></p>
+  </div>
+
+  <!-- BREAKER -->
+  <div class="card">
+    <h3>Breaker</h3>
+    <p>Status: <span id="breakerStatus">OFF</span></p>
+    <p>Trip: <span id="tripStatus">FALSE</span></p>
+    <button onclick="resetBreaker()">Reset</button>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="card">
+    <h3>Security</h3>
+    <p>Status: <span id="securityStatus">SAFE</span></p>
+    <button onclick="resetSecurity()">Reset</button>
+  </div>
+
 </div>
+</div>
+
+<!-- JS -->
+<script src="script.js"></script>
+
 </body>
 </html>
